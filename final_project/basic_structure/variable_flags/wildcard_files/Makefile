@@ -12,9 +12,12 @@ CXXFLAGS = -Wextra -Wpedantic -Wall -std=c++17
 
 
 COMPILER_CALL = $(CXX) $(CXXFLAGS)
-CXX_OBJECTS = my_lib.o main.o
+
+CXX_SOURCES = $(wildcard *.cc)
+CXX_OBJECTS = $(patsubst %.cc, %.o, $(CXX_SOURCES))
 
 build: $(CXX_OBJECTS)
+	echo $(CXX_SOURCES)
 	$(COMPILER_CALL) $(CXX_OBJECTS) -o $(EXECUTABLE)
 
 my_lib.o:
@@ -24,11 +27,11 @@ main.o:
 	$(COMPILER_CALL) -c main.cc
 
 execute:
-	./main
+	./$(EXECUTABLE)
 
 clean:
 	rm -rf *.o
-	rm -rf main
+	rm -rf $(EXECUTABLE)
 
 
 #####################
